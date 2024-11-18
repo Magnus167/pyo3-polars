@@ -359,6 +359,10 @@ impl ToPyObject for PyDataType {
         let pl = POLARS.bind(py);
 
         match &self.0 {
+            DataType::Struct(_) => {
+                let class = pl.getattr(intern!(py, "Struct")).unwrap();
+                class.call0().unwrap().into()
+            }
             DataType::Int8 => {
                 let class = pl.getattr(intern!(py, "Int8")).unwrap();
                 class.call0().unwrap().into()
